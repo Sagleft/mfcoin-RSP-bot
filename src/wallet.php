@@ -19,7 +19,26 @@
 			return $this->address;
 		}
 		
-		public function getbalace() {
+		public function withdraw($address, $amount) {
+			$base_part = ($this->api_url).'method=sendfrom';
+			$auth_part = '&alias='.($this->alias).'&api_key='.($this->api_key);
+			$query_part = '&user_id='.($this->user_id).'&to_address='.$address.'&amount='.$amount.'&dir=receiver';
+			//отправляем средства на адрес to_address всего amount монет, комиссия списывается с получателя. чтобы списывалась с вас - поставьте dir в положение self
+			$json = cURL($base_part.$auth_part.$query_part, '', '', null);
+			//TODO: сократить
+			if(!isJSON($json)) {
+				throw new Exception("Ошибка запроса вывода средств, полученный ответ - не json.");
+			} else {
+				$arr = json_decode($json, true);
+				if($arr['status'] != 'success') {
+					throw new Exception("Получена ошибка при запросе вывода средств: ".$arr['error']);
+				} else {
+					return $arr['data']['trid'];
+				}
+			}
+		}
+		
+		public function getbalance() {
 			$base_part = ($this->api_url).'method=getbalance';
 			$auth_part = '&alias='.($this->alias).'&api_key='.($this->api_key);
 			$query_part = '&user_id='.($this->user_id);
