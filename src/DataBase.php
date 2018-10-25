@@ -39,6 +39,13 @@
 		
 		public function newuser($tid, $nick) {
 			$nick = DataFilter($nick);
+			if(strlen($nick) > 72) {
+				mb_internal_encoding("UTF-8");
+				$nick = mb_substr($string, 0, 68).'...';
+			}
+			if(strtolower($nick) == 'admin' || strtolower($nick) == 'sagleft') {
+				$nick = 'UserName';
+			}
 			$tid = DataFilter($tid)+0;
 			mysql_query("INSERT INTO users (nick,tid,address) VALUES ('$nick', $tid, 'test')", $this->db);
 			$query = mysql_query("SELECT uid,nick,address FROM users WHERE tid=".$tid, $this->db);
@@ -59,6 +66,26 @@
 			}
 		}
 		
+		public function getgames($uid) {
+			$query = mysql_query("SELECT g.id,g.bet_amount,u.nick FROM game g INNER JOIN users u ON g.player=u.uid WHERE u.uid!=".$uid." AND g.active='1'", $this->db);
+			if(mysql_num_rows($query) == 0) {
+				return false;
+			} else {
+				return $query;
+			}
+		}
+		
+		public function getbetamount($uid) {
+			//получить сумму ставки
+			$query = mysql_query("SELECT IFNULL(SUM(bet_amount),0) FROM game WHERE player=".$uid, $this->db);
+			if(mysql_num_rows($query) == 0) {
+				return 0;
+			} else {
+				$result = mysql_fetch_row($query);
+				return $result[0];
+			}
+		}
+		
 		public function setbet($amount, $type, $uid) {
 			//добавить ставку пользователя
 			$query = mysql_query("INSERT INTO game (player, bet_amount, bet_type) VALUES ($uid, $amount, '$type')", $this->db);
@@ -71,6 +98,12 @@
 		
 		public function unbet($uid) {
 			//убрать ставку пользователя
+			$query = mysql_query("DELETE FROM game WHERE player=".$uid, $this->db);
+			if($query == false) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 	}
 	
