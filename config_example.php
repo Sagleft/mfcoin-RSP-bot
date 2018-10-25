@@ -17,7 +17,8 @@
 			'prefix'  => 'RSP_' //префикс для alias адресов пользователей. подробнее в MFinotaur API
 		],
 		'service' => [
-			'comission' => 0.05 //5% комиссия с победителя
+			'comission' => 0.05, //5% комиссия с победителя
+			'qr_encoder' => 'http://qrcoder.ru/code/?'
 		]
 	];
 	

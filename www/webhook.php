@@ -75,27 +75,33 @@
 		}
 	}
 	
+	$com_list = "\n\n 💲 /balance - мой баланс\n 💾 /myaddress - мой MFCoin-адрес\n © /about - о боте";
+	
 	//проверяем сообщение, адресованное боту
 	switch($message) {
 		default:
 			//команда не найдена
-			$client->postMessage("Неверная команда");
+			$client->postMessage("🤷🏿‍♂️ Неверная команда");
 			break;
 		case '/about':
-			$client->postMessage("Игровой бот-пример интеграции MFCoin в Telegram-ботов.\nИсходники: https://github.com/Sagleft/mfcoin-RSP-bot\nЛицензия: Apache-2.0\nАвтор: @Sagleft");
+			$client->postMessage("💬 Игровой бот-пример интеграции MFCoin в Telegram-ботов.\nИсходники: https://github.com/Sagleft/mfcoin-RSP-bot\nЛицензия: Apache-2.0\nАвтор: @Sagleft".$com_list);
 			break;
 		case '/start':
 			//пользователь запускает бота
-			$client->postMessage("Приветствую тебя, ".($client->name).".\nСыграем?\nТвой адрес кошелька для пополнения:\n".($user->address));
+			$client->postMessage("💬 Приветствую тебя, ".($client->name).".\nСыграем?\nТвой адрес кошелька для пополнения:\n".($user->address).$com_list);
+			break;
+		case '/myaddress':
+			//QR код адреса кошелька пользователя
+			$client->postMessage("💬 Ваш MFCoin-адрес: \n".($user->address)."\n\n".$config['service']['qr_encoder'].($user->address)."&6&0".$com_list);
 			break;
 		case '/balance':
 			//запрос баланса
 			try {
 				$balance_info = $wallet->getbalace();
 			} catch (Exception $e) {
-				$client->postMessage("Исключение: ".($e->getMessage()));
+				$client->postMessage("☠️ Исключение: ".($e->getMessage()));
 			}
-			$client->postMessage("Твой баланс:\nдоступный: ".$balance_info['balance']." mfc\nожидающий: ".$balance_info['awaiting']." mfc");
+			$client->postMessage("💬 Твой баланс:\n⭐️ доступный: ".$balance_info['balance']." mfc\n🕓 ожидающий: ".$balance_info['awaiting']." mfc".$com_list);
 			break;
 	}
 	

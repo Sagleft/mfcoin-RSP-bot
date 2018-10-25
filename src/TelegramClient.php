@@ -34,12 +34,18 @@
 			return $message;
 		}
 		
-		function postImage($info, $path) {
+		function postImage($info, $path, $external=false) {
 			$chatID = $this->chatID;
 			$url  = $this->api . $this->token . "/sendPhoto?chat_id=".$chatID;
+			if($external) {
+				$curl_file = new CURLFile($path);
+			} else {
+				$curl_file = new CURLFile(realpath($path));
+			}
+			
 			$post_fields = array('chat_id' => $chatID,
 				'caption' => $info,
-				'photo' => new CURLFile(realpath($path))
+				'photo' => $curl_file
 			);
 			$ch = curl_init(); 
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
