@@ -1,5 +1,7 @@
 # RSP MFCoin Bot
 
+Пример интеграции MFCoin через сервис MFinotaurAPI в игрового Telegram бота
+
 ## Требования
 
 * PHP >=5.4
