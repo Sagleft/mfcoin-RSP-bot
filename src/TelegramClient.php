@@ -55,12 +55,13 @@
 			$output = curl_exec($ch);
 		}
 		
-		function postMessage($message, $buttons=null) {
+		function postMessage($message) {
 			$queryURL = $this->api . $this->token . '/sendMessage?chat_id=' . $this->chatID . '&text=' . urlencode($message);
-			
-			if($buttons) {
-				$queryURL .= '&reply_markup='.$buttons;
-			}
+			file_get_contents($queryURL);
+		}
+		
+		function postMessageByTID($tid, $message) {
+			$queryURL = $this->api . $this->token . '/sendMessage?chat_id=' . $tid . '&text=' . urlencode($message);
 			file_get_contents($queryURL);
 		}
 	}

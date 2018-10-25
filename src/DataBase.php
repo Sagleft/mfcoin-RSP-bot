@@ -58,12 +58,27 @@
 		
 		public function findbet($uid) {
 			//найти была ли размещена ставка пользователем по идентификатору uid
-			$query = mysql_query("SELECT id FROM game WHERE player=".$uid, $thid->db);
+			$query = mysql_query("SELECT id FROM game WHERE player=".$uid, $this->db);
 			if(mysql_num_rows($query) == 0) {
 				return false;
 			} else {
 				return true;
 			}
+		}
+		
+		public function findbetbyid($id){
+			//найти активную ставку по id
+			$query = mysql_query("SELECT g.id,g.player,g.bet_amount,g.bet_type,u.nick,u.tid,u.address,u.uid FROM game g INNER JOIN users u ON g.player=u.uid WHERE id=".$id." AND active='1'", $this->db);
+			if(mysql_num_rows($query) == 0) {
+				return false;
+			} else {
+				return mysql_fetch_assoc($query);
+			}
+		}
+		
+		public function markInactiveBet($id) {
+			//помечаем ставку как неактивную
+			mysql_query("UPDATE game SET active='0' WHERE id=".$id, $this->db);
 		}
 		
 		public function getgames($uid) {
@@ -104,6 +119,11 @@
 			} else {
 				return true;
 			}
+		}
+		
+		public function unbetbyid($id) {
+			//убрать ставку пользователя
+			mysql_query("DELETE FROM game WHERE id=".$id, $this->db);
 		}
 	}
 	

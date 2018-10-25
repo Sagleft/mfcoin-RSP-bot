@@ -19,7 +19,8 @@
 		'service' => [
 			'comission'  => 0.05, //5% комиссия с победителя
 			'qr_encoder' => 'http://qrcoder.ru/code/?',
-			'bet_min'    => 1     //минимальная ставка в mfc
+			'bet_min'    => 1     //минимальная ставка в mfc,
+			'address'    => ''    //MFCoin-адрес, на который отправлять комиссии
 		]
 	];
 	

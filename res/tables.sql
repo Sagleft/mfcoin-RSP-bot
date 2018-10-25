@@ -15,11 +15,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `game` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `creator_uid` int(11) NOT NULL,
-  `player_uid` int(11) NOT NULL,
-  `bet` decimal(20,8) NOT NULL,
+  `player` int(11) NOT NULL,
+  `bet_amount` decimal(20,8) NOT NULL,
+  `bet_type` set('rock','scissors','paper') NOT NULL,
+  `active` set('0','1') NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
