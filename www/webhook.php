@@ -81,6 +81,9 @@
 			//команда не найдена
 			$client->postMessage("Неверная команда");
 			break;
+		case '/about':
+			$client->postMessage("Игровой бот-пример интеграции MFCoin в Telegram-ботов.\nИсходники: https://github.com/Sagleft/mfcoin-RSP-bot\nЛицензия: Apache-2.0\nАвтор: @Sagleft");
+			break;
 		case '/start':
 			//пользователь запускает бота
 			$client->postMessage("Приветствую тебя, ".($client->name).".\nСыграем?\nТвой адрес кошелька для пополнения:\n".($user->address));
