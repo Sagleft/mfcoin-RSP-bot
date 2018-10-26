@@ -22,6 +22,7 @@
 	
 	//получаем сообщение, адресованное боту
 	$message = $client->getMessage();
+	//TODO: перенести проверку локации бота в его класс
 	//проверим, не пришло ли сообщение из группы
 	$type = $client->type;
 	if($type == 'group' || $type == 'supergroup') {
@@ -32,6 +33,7 @@
 	}
 	
 	//ищем пользователя в БД
+	//TODO: для ошибок создать отдельный класс-обработчик, чтобы сократить всю эту кашу
 	if($database->finduser($client->chatID)) {
 		//пользователь найден
 		$user_data = $database->getuser($client->chatID);

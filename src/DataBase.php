@@ -38,15 +38,18 @@
 		}
 		
 		public function newuser($tid, $nick) {
-			$nick = DataFilter($nick);
+			$nick = DataFilter($nick); //фильтруем ник
 			if(strlen($nick) > 72) {
-				mb_internal_encoding("UTF-8");
-				$nick = mb_substr($string, 0, 68).'...';
+				mb_internal_encoding("UTF-8");           //фикс кодировки
+				$nick = mb_substr($string, 0, 68).'...'; //обрезаем ник, если слишком длинный
 			}
 			if(strtolower($nick) == 'admin' || strtolower($nick) == 'sagleft') {
-				$nick = 'UserName';
+				$nick = 'UserName'; //фикс ников
 			}
-			$tid = DataFilter($tid)+0;
+			if(empty($nick) || $nick == ' ') {
+				$nick = 'Anonymous'; //фикс пустых ников
+			}
+			$tid = DataFilter($tid)+0; //фильтр chat_id, указывающий на чат\пользователя в Telegram
 			mysql_query("INSERT INTO users (nick,tid,address) VALUES ('$nick', $tid, 'test')", $this->db);
 			$query = mysql_query("SELECT uid,nick,address FROM users WHERE tid=".$tid, $this->db);
 			if(mysql_num_rows($query) == 0) {
