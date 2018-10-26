@@ -244,7 +244,7 @@
 					$msg2user    .= "\nВы выиграли ".$bet_info['bet_amount']." mfc";
 					//создаем выплату победителю - текущему пользователю
 					$payout = $bet_info['bet_amount'] * (1-$config['service']['comission']);
-					$alias = $config['wallet']['wallet'].$bet_info['uid']; //алиас адреса автора ставки
+					$alias = $config['wallet']['prefix'].$bet_info['uid']; //алиас адреса автора ставки
 					try {
 						$wallet->withdrawFromAlias($alias, $user->address, $payout);
 						//комиссия боту
