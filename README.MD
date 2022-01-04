@@ -21,3 +21,9 @@
 ## Готовый бот
 
 Доступен в Telegram: @sspgame_bot
+
+---
+
+![image](https://github.com/Sagleft/Sagleft/raw/master/image.png)
+
+### :globe_with_meridians: [Telegram канал](https://t.me/+VIvd8j6xvm9iMzhi)
